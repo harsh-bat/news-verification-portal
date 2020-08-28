@@ -1,0 +1,422 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>{{article.headline}}</title>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="description" content="Demo project">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"> -->
+	<link rel="stylesheet" type="text/css" href='{% static "styles/bootstrap4/bootstrap.min.css" %}'>
+	<link href='{% static "plugins/font-awesome-4.7.0/css/font-awesome.min.css" %}' rel="stylesheet" type="text/css">
+	<link rel="stylesheet" type="text/css" href='{% static "plugins/OwlCarousel2-2.2.1/owl.carousel.css" %}'>
+	<link rel="stylesheet" type="text/css" href='{% static "plugins/OwlCarousel2-2.2.1/owl.theme.default.css" %}'>
+	<link rel="stylesheet" type="text/css" href='{% static "plugins/OwlCarousel2-2.2.1/animate.css" %}'>
+	<link rel="stylesheet" type="text/css" href='{% static "plugins/jquery.mb.YTPlayer-3.1.12/jquery.mb.YTPlayer.css" %}'>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.7/css/all.css">
+
+	<link rel="stylesheet" type="text/css" href='{% static "post.css"%}'>
+	<link rel="stylesheet" type="text/css" href='{% static "post_responsive.css"%}'>
+
+
+
+</head>
+<body>
+
+	<div class="super_container">
+
+		<!-- Header -->
+
+		<header class="header">
+			<nav class="navbar navbar-default justify-content-right">
+				<div class="container-fluid">
+
+					<button class="navbar-toggler ml-auto" type="button" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+						<span class="navbar-toggler-icon"></span>
+						<i class="fa fa-navicon" style="color:#fff; font-size:20px;"></i>
+					  </button>
+
+					{% if user.is_authenticated %}
+					<div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
+						<ul class="nav navbar-nav">
+							<li><a href="/profile">Dashboard</a></li>
+							<li><a href="/logout">Log out</a></li>
+						</ul>
+					</div>
+					{% else %}
+					<div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
+						<ul class="nav navbar-nav">
+							<li><a href="/login">Login</a></li>
+						</ul>
+					</div>
+					
+					{% endif %}
+				</div>
+			</nav>
+		</header>
+
+
+		<!-- Home -->
+
+		<div class="home">
+			<div class="home_background parallax-window" data-parallax="scroll" data-image-src="{{MEDIA_URL}}{{article.img}}" data-speed="0.8"></div>
+			
+			<div class="home_content">
+				<div class="post_category trans_200"><a class="trans_200">{{article.articleType}}</a></div>
+				<div class="post_title">{{article.headline}}</div>
+			</div>
+		</div>
+
+		<!-- Page Content -->
+
+		<div class="page_content">
+			<div class="container">
+				<div class="row row-lg-eq-height">
+
+					<!-- Post Content -->
+
+					<div class="col-lg-9">
+						<div class="post_content">
+
+							<!-- Top Panel -->
+							<div class="post_panel post_panel_top d-flex flex-row align-items-center justify-content-start">
+								{% if article.author.dp %}
+								<div class="author_image" style="margin-bottom: 20px;"><div><img src="{{MEDIA_URL}}{{article.journalist.dp}}" alt=""></div></div>
+								{% else %}
+								<div class="author_image" style="margin-bottom: 20px;"><div><img src='{% static "defaultdp.png"%}'></div></div>
+								{% endif %}
+								<span class="post_meta">{{article.journalist.fname}} {{article.journalist.lname}}</a><span>{{article.post_time}}</span></span>
+								
+								
+								
+							</div>
+
+						</div>
+						<div>
+
+
+							<!-- Post Body -->
+
+							<div class="post_body">
+								<figure>
+									<img src="{{MEDIA_URL}}{{article.img}}" alt="" style="max-height: 400px ; width:100%;">
+									<figcaption>Image</figcaption>
+								</figure>
+		
+									<div style="text-align: justify	;">{{ article.body |linebreaks }}</div>
+
+								<!-- Post Tags -->
+								<div class="post_tags">
+									<ul>
+										<li class="post_tag"><a href="#">{{article.articleType}}</a></li>
+									</ul>
+								</div>
+							</div>
+
+							<!-- Bottom Panel -->
+							<div class="post_panel bottom_panel d-flex flex-row align-items-center justify-content-start">
+									
+								{% if article.author.dp %}
+								<div class="author_image" style="margin-bottom: 20px;"><div><img src="{{MEDIA_URL}}{{article.journalist.dp}}" alt=""></div></div>
+								{% else %}
+								<div class="author_image" style="margin-bottom: 20px;"><div><img src='{% static "defaultdp.png"%}'></div></div>
+								{% endif %}
+								<span class="post_meta">{{article.journalist.fname}} {{article.journalist.lname}}</a><span>{{article.post_time}}</span></span>
+								
+									{% if user_type == "RRR" %}
+									
+									
+									<div class=" ml-sm-auto show_love">
+										<span></span></div>
+									<div class="like_button">
+										{% if is_liked %}
+										<button class="like__btn animated" style="background-color: red;" id="likebutton">
+										{% else %}
+										<button class="like__btn animated" style="background-color: black;" id="likebutton">
+										{% endif %}
+											<i class="like__icon fa fa-heart"></i>
+											<span class="like__number" id="like_number">{{likes}}</span>
+										</button>
+									</div>
+
+									
+
+									{% endif %}
+										
+									</div>
+
+									
+
+									<!-- Similar Posts -->
+									<div class="similar_posts">
+
+
+										{% if user_type == "RRR" %}
+
+										<!-- Post Comment -->
+										<div class="post_comment">
+											<div class="post_comment_title">Post Comment</div>
+											<div class="row">
+												<div class="col-xl-8">
+													<div class="post_comment_form_container">
+														<form action="/postcomment" method="POST">
+															<textarea class="comment_text" placeholder="Your Comment" required="required" name="comment_text"></textarea>
+															{% csrf_token %}
+															<input type="hidden" name="article_id" value="{{article.id}}">
+															<button type="submit" class="comment_button">Post Comment</button>
+														</form>
+													</div>
+												</div>
+											</div>
+										</div>
+										{% else %}
+										{% endif %}
+
+
+										<!-- Comments -->
+
+										{% if no_comments > 0 %}
+										<div class="comments">
+											<div class="comments_title">Comments <span>({{no_comments}})</span></div>
+											<div class="row">
+												<div class="col-xl-8">
+													<div class="comments_container">
+														<ul class="comment_list">
+
+															{% for comment in comments %}
+															<!-- Single comment -->
+
+															<li class="comment">
+																<div class="comment_body">
+																	<div class="comment_panel d-flex flex-row align-items-center justify-content-start">
+
+
+																		<div class="comment_author_image">
+																			<div class="author_image">
+																			{% if comment.reader.dp %}
+																			<img src="{{MEDIA_URL}}{{comment.reader.dp}}" alt="">
+																			{% else %}
+																			<img src='{% static "defaultdp.png"%}'>
+																			{% endif %}
+																			</div>
+																		</div>
+
+
+																		<small class="post_p"><strong>{{comment.reader.fname}} {{comment.reader.lname}}</strong> <br>  <span>{{comment.timestamp}}</span></small>
+																	</div>
+																	<div class="comment_content">
+																		<p>{{comment.comment | linebreaks}}
+																			
+																			
+																		
+																		</p>
+																	</div>
+																</div>
+															</li>
+
+															<!-- single comment end -->
+															{% endfor %}
+														</ul>
+													</div>
+												</div>
+											</div>	
+										</div>
+										{% else %}
+										{% if user_type == "RRR"%}
+										<br>
+										<br>
+										{% else %}
+										<div class="comments_title">No Comments <br><br><br></div>
+										{% endif %}
+										{% endif %}
+									</div>
+								</div>
+								
+							</div>
+
+							<!-- Sidebar -->
+
+							<div class="col-lg-3">
+								<div class="sidebar">
+									<div class="sidebar_background"></div>
+
+									<!-- Top Stories -->
+
+									<div class="sidebar_section">
+										<div class="sidebar_title_container">
+											<div class="sidebar_title">Top Stories</div>
+											<div class="sidebar_slider_nav">
+												<div class="custom_nav_container sidebar_slider_nav_container">
+													<div class="custom_prev custom_prev_top">
+														<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+														width="7px" height="12px" viewBox="0 0 7 12" enable-background="new 0 0 7 12" xml:space="preserve">
+														<polyline fill="#bebebe" points="0,5.61 5.609,0 7,0 7,1.438 2.438,6 7,10.563 7,12 5.609,12 -0.002,6.39 "/>
+													</svg>
+												</div>
+												<ul id="custom_dots" class="custom_dots custom_dots_top">
+													<li class="custom_dot custom_dot_top active"><span></span></li>
+													<li class="custom_dot custom_dot_top"><span></span></li>	
+												</ul>
+												<div class="custom_next custom_next_top">
+													<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+													width="7px" height="12px" viewBox="0 0 7 12" enable-background="new 0 0 7 12" xml:space="preserve">
+													<polyline fill="#bebebe" points="6.998,6.39 1.389,12 -0.002,12 -0.002,10.562 4.561,6 -0.002,1.438 -0.002,0 1.389,0 7,5.61 "/>
+												</svg>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="sidebar_section_content">
+
+									<div class="owl-carousel owl-theme sidebar_slider_top">
+											
+
+											<!-- Top Stories Slider Item -->
+											<div class="owl-item">
+
+												{% for top in tops1 %}
+												<!-- Sidebar Post -->
+												<div class="side_post">
+													<a href="/article/{{top.id}}">
+														<div class="d-flex flex-row align-items-xl-center align-items-start justify-content-start">
+															<div class="side_post_image"><div><img src="{{MEDIA_URL}}{{top.img}}" alt=""></div></div>
+															<div class="side_post_content">
+																<div class="side_post_title">{{top.headline}}</div>
+																<small class="post_meta">{{top.journalist.fname}} {{top.journalist.lname}}</small>
+															</div>
+														</div>
+													</a>
+												</div>
+												
+												<br>
+												<br>	
+												{% endfor %}
+												
+
+											</div>
+
+
+											<!-- Top Stories Slider Item -->
+											<div class="owl-item">
+
+												{% for top in tops2 %}
+												<!-- Sidebar Post -->
+												<div class="side_post">
+													<a href="/article/{{top.id}}">
+														<div class="d-flex flex-row align-items-xl-center align-items-start justify-content-start">
+															<div class="side_post_image"><div><img src="{{MEDIA_URL}}{{top.img}}" alt=""></div></div>
+															<div class="side_post_content">
+																<div class="side_post_title">{{top.headline}}</div>
+																<small class="post_meta">{{top.journalist.fname}} {{top.journalist.lname}}</small>
+															</div>
+														</div>
+													</a>
+												</div>
+												
+												{% endfor %}
+												
+
+											</div>
+
+										</div>
+
+										</div>
+									</div>
+								</div>
+							</div>
+
+
+
+							
+
+							
+
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+
+
+
+		</div>
+
+		<script src='{% static "jquery-3.2.1.min.js"%}'></script>
+		<script src='{% static "styles/bootstrap4/popper.js"%}'></script>
+		<script src='{% static "styles/bootstrap4/bootstrap.min.js"%}'></script>
+		<script src='{% static "plugins/OwlCarousel2-2.2.1/owl.carousel.js"%}'></script>
+		<script src='{% static "plugins/easing/easing.js"%}'></script>
+		<script src='{% static "plugins/masonry/masonry.js"%}'></script>
+		<script src='{% static "plugins/parallax-js-master/parallax.min.js"%}'></script>
+		<script src='{% static "post.js"%}'></script>
+
+		<script>
+									
+			$("#likebutton").click(function(){
+				if($(this).css("background-color")=="rgb(0, 0, 0)"){
+					
+
+					$.ajax({
+        				url: '/likeinterface',
+        				type: 'POST',
+        				data: { 
+							'islike': "yes",
+							'user_id' : "{{user.username}}",
+							'csrfmiddlewaretoken': '{{ csrf_token }}',
+							'article_id':"{{article.id}}",
+						} ,
+        				success: function (response) {
+							
+							if (response['islike']=='yes'){
+								$("#likebutton").css("background-color", "red");
+							}
+							else{
+								$("#likebutton").css("background-color", "black");
+							}
+							
+							$('#like_number').text( response['new_likes'] );
+        				},
+    				}); 
+
+
+				}
+
+
+				// If it is red
+				else{
+
+					$.ajax({
+        				url: '/likeinterface',
+        				type: 'POST',
+        				data: { 
+							'islike': "no",
+							'user_id' : "{{user.username}}",
+							'csrfmiddlewaretoken': '{{ csrf_token }}',
+							'article_id':"{{article.id}}",
+						} ,
+        				success: function (response) {
+							
+							if (response['islike']=='yes'){
+								$("#likebutton").css("background-color", "red");
+							}
+							else{
+								$("#likebutton").css("background-color", "black");
+							}
+							
+							$('#like_number').text( response['new_likes'] );
+        				},
+    				}); 
+
+
+				}
+
+				
+				
+			})
+			
+		</script>
+	</body>
+	</html>

@@ -1,0 +1,158 @@
+{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Auditing</title>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link href="https://fonts.googleapis.com/css?family=Raleway:400,600,700,800" rel="stylesheet">
+  <link href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Droid+Sans" rel="stylesheet">
+
+  <link rel="stylesheet" href='{% static "audprof8.css"%}'>
+  </head>
+  <body>
+
+    <aside class="side-nav" id="show-side-navigation1">
+      <i class="fa fa-bars close-aside hidden-sm hidden-md hidden-lg" data-close="show-side-navigation1"></i>
+      <div class="heading">
+        {% if auditor.dp %}
+        <img src="{{MEDIA_URL}}{{auditor.dp}}" alt="" class="center" id="dpID" style="margin-bottom: 40px;">
+        {% else %}
+        <img src='{% static "defaultdp.png"%}' alt="A" class="center" id="dpID" style="margin-bottom: 40px;">
+        {% endif %}
+        <div class="info">
+          <br><br>
+          <h3><a href="#">{{auditor.fname}} {{auditor.lname}}</a></h3>
+        </div>
+      </div>
+  
+      <ul class="categories">
+        <li><i class="fa fa-home fa-fw" aria-hidden="true"></i><a href="/profile">Dashboard</a>
+  
+          <li><i class="fa fa-envelope fa-fw"></i><a href="#">Stake</a>
+            <ul class="side-nav-dropdown">
+              <li><a href="/changestake">Add stake</a></li>
+              <li><a href="/changestake">Remove stake</a></li>
+            </ul>
+          </li>
+        </li>
+        <li><i class="fa fa-newspaper-o" aria-hidden="true"></i><a href="#">Articles</a>
+          <ul class="side-nav-dropdown">
+            <li><a href="#">Pending Articles</a></li>
+            <li><a href="#">Audited Articles</a></li>
+          </ul>
+        </li>
+  
+        <li><i class="fa fa-wrench fa-fw"></i><a href="/editprofile">Edit Profile</a></li>
+      </ul>
+    </aside>
+
+
+    <section id="contents">
+
+      <nav class="navbar navbar-default">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+              <i class="fa fa-align-right"></i>
+            </button>
+          </div>
+          <div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">My profile <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="/profile"><i class="fa fa-user-o fw"></i>Dashboard</a></li>
+                  
+                  <li role="separator" class="divider"></li>
+                  <li><a href="/logout"><i class="fa fa-sign-out"></i> Log out</a></li>
+                </ul>
+              </li>
+              <li><a href="#"><i style="margin-top: 19px;" data-show="show-side-navigation1" class="fa fa-bars show-side-btn"></i></a></li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+      <div class="welcome">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="content">
+               <div class="row row-lg-eq-height">
+
+        <!-- Post Content -->
+
+        <div class="col-lg-9">
+          <div class="post_content">
+
+            <!-- Top Panel -->
+            <div class="post_panel post_panel_top d-flex flex-row align-items-center justify-content-start">
+              <div class="author_image"><div><img src="images/author.jpg" alt=""></div></div>
+              <div class="post_meta"><a href="#">{{article.journalist.fname}} {{article.journalist.lname}}</a><span>{{article.post_time}}</span></div>
+              <p class="post_meta"><br><a href="#">Source:</a><br><span>{{article.src}}</span></div>
+              </p>
+            </div>
+          <div>
+
+
+            <!-- Post Body -->
+
+            <div class="post_body">
+              <div class="title">
+                <h2 style="color: black;">{{article.headline}} </h2>
+              </div>
+              <figure>
+                <img src="{{MEDIA_URL}}{{article.img}}" alt="">
+              </figure>
+              <p class="post_p">
+                {{article.body | linebreaks }}
+              </p>
+
+              <!-- Post Tags -->
+              <div class="post_tags">
+                <ul>
+                  <li class="post_tag"><a href="#">{{article.articleType}}</a></li>
+                </ul>
+              </div>
+            </div>
+            <form method="post" action="/auditing/{{article.id}}">
+              {% csrf_token %}
+              <input type="hidden" name="decision" value="approve">
+              <button type="submit" class="btn btn-default follow_btn">Approve</button>
+            </form>
+            <span style="width: 30px;">
+            </span>
+            <br>
+            <form method="post" action="/auditing/{{article.id}}">
+              {% csrf_token %}
+              <input type="hidden" name="decision" value="deny">
+              <button type="submit" class="btn btn-default follow_btn">Decline</button>
+            </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+</section>
+
+      <script src='http://code.jquery.com/jquery-latest.js'></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script> 
+      <script src='{% static "audprofile.js"%}'></script>
+
+
+      <style type="text/css">
+  
+  .hidetext{
+    text-overflow: ellipsis !important;
+    overflow: hidden !important;
+    white-space: nowrap;
+      }
+
+</style>
+
+      </body>
+    </html>

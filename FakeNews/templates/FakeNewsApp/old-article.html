@@ -1,0 +1,542 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Article</title>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="description" content="Demo project">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"> -->
+	<link rel="stylesheet" type="text/css" href='{% static "styles/bootstrap4/bootstrap.min.css" %}'>
+	<link href='{% static "plugins/font-awesome-4.7.0/css/font-awesome.min.css" %}' rel="stylesheet" type="text/css">
+	<link rel="stylesheet" type="text/css" href='{% static "plugins/OwlCarousel2-2.2.1/owl.carousel.css" %}'>
+	<link rel="stylesheet" type="text/css" href='{% static "plugins/OwlCarousel2-2.2.1/owl.theme.default.css" %}'>
+	<link rel="stylesheet" type="text/css" href='{% static "plugins/OwlCarousel2-2.2.1/animate.css" %}'>
+	<link rel="stylesheet" type="text/css" href='{% static "plugins/jquery.mb.YTPlayer-3.1.12/jquery.mb.YTPlayer.css" %}'>
+	
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.7/css/all.css">
+
+	<link rel="stylesheet" type="text/css" href='{% static "post.css"%}'>
+	<link rel="stylesheet" type="text/css" href='{% static "post_responsive.css"%}'>
+
+
+
+</head>
+<body>
+
+	<div class="super_container">
+
+		<!-- Header -->
+
+		<header class="header">
+			<nav class="navbar navbar-default">
+				<div class="container-fluid">
+					<div class="navbar-header">
+						<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+							<i class="fa fa-align-right"></i>
+						</button>
+					</div>
+
+					{% if user.is_authenticated %}
+					<div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
+						<ul class="nav navbar-nav">
+							<li class="dropdown">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">My profile <span class="caret"></span></a>
+								<ul class="dropdown-menu">
+									<li><a href="/profile"><i class="fa fa-user-o fw"></i>Dashboard</a></li>
+									<li role="separator" class="divider"></li>
+									<li><a href="/logout"><i class="fa fa-sign-out"></i> Log out</a></li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+					{% else %}
+					<div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
+						<ul class="nav navbar-nav">
+							<li><a href="/login"><i class="fa fa-sign-out"></i> Login</a></li>
+						</ul>
+					</div>
+					
+					{% endif %}
+				</div>
+			</nav>
+			<div class="container">
+				<div class="row">
+					<div class="col">
+						<div class="header_content d-flex flex-row align-items-center justify-content-start">
+
+							<nav class="main_nav">
+								<ul>
+									<li class="active"><a href="/home">Home</a></li>
+									<li><a href="#">Fashion</a></li>
+									<li><a href="#">Gadgets</a></li>
+									<li><a href="#">Lifestyle</a></li>
+									<li><a href="#">Video</a></li>
+								</ul>
+							</nav>
+							<div class="search_container ml-auto">
+								<form action="#">
+									<input type="search" class="header_search_input" required="required" placeholder="Search for articles, journalists, tags...">
+									<img class="header_search_icon" src="{{MEDIA_URL}}images/search.png" alt="">
+								</form>
+
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</header>
+
+
+		<!-- Home -->
+
+		<div class="home">
+			<div class="home_background parallax-window" data-parallax="scroll" data-image-src="{{MEDIA_URL}}images/post.jpg" data-speed="0.8"></div>
+			<div class="home_content">
+				<div class="post_category trans_200"><a href="category.html" class="trans_200">{{article.articleType}}</a></div>
+				<div class="post_title">{{article.headline}}</div>
+			</div>
+		</div>
+
+		<!-- Page Content -->
+
+		<div class="page_content">
+			<div class="container">
+				<div class="row row-lg-eq-height">
+
+					<!-- Post Content -->
+
+					<div class="col-lg-9">
+						<div class="post_content">
+
+							<!-- Top Panel -->
+							<div class="post_panel post_panel_top d-flex flex-row align-items-center justify-content-start">
+								{% if article.author.dp %}
+								<div class="author_image"><div><img src="{{MEDIA_URL}}{{article.journalist.dp}}" alt=""></div></div>
+								{% else %}
+								<div class="author_image"><div><img src='{% static "defaultdp.png"%}'></div></div>
+								{% endif %}
+								<div class="post_meta"><a href="#">{{article.journalist.fname}} {{article.journalist.lname}}</a><span>{{article.post_time}}</span></div>
+								<button class="btn btn-default follow_btn">+Follow</button>
+								<div class="save">
+									<i class="fa fa-save" style="font-size:36px;color:white"></i>
+								</div>
+							</div>
+
+						</div>
+						<div>
+
+
+							<!-- Post Body -->
+
+							<div class="post_body">
+								<figure>
+									<img src="{{MEDIA_URL}}{{article.img}}" alt="" style="max-height: 400px ; width:100%;">
+									<figcaption>Image</figcaption>
+								</figure>
+								<p class="post_p">
+									{{ article.body | linebreaks }}
+								</p>
+
+								
+
+								<!-- Post Tags -->
+								<div class="post_tags">
+									<ul>
+										<li class="post_tag"><a href="#">{{article.articleType}}</a></li>
+									</ul>
+								</div>
+							</div>
+
+							<!-- Bottom Panel -->
+							<div class="post_panel bottom_panel d-flex flex-row align-items-center justify-content-start">
+								<div class="author_image"><div><img src="{{MEDIA_URL}}
+									images/author.jpg" alt=""></div></div>
+									<div class="post_meta"><a href="#">Katy Liu</a><span>Sep 29, 2017 at 9:48 am</span></div>
+
+									<fieldset class="rating">
+										<input type="radio" id="star5" name="rating" value="5" /><label class = "full" for="star5" title="Awesome - 5 stars"></label>
+										<input type="radio" id="star4half" name="rating" value="4 and a half" /><label class="half" for="star4half" title="Pretty good - 4.5 stars"></label>
+										<input type="radio" id="star4" name="rating" value="4" /><label class = "full" for="star4" title="Pretty good - 4 stars"></label>
+										<input type="radio" id="star3half" name="rating" value="3 and a half" /><label class="half" for="star3half" title="Meh - 3.5 stars"></label>
+										<input type="radio" id="star3" name="rating" value="3" /><label class = "full" for="star3" title="Meh - 3 stars"></label>
+										<input type="radio" id="star2half" name="rating" value="2 and a half" /><label class="half" for="star2half" title="Kinda bad - 2.5 stars"></label>
+										<input type="radio" id="star2" name="rating" value="2" /><label class = "full" for="star2" title="Kinda bad - 2 stars"></label>
+										<input type="radio" id="star1half" name="rating" value="1 and a half" /><label class="half" for="star1half" title="Meh - 1.5 stars"></label>
+										<input type="radio" id="star1" name="rating" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>
+										<input type="radio" id="starhalf" name="rating" value="half" /><label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>
+									</fieldset>
+									<div class=" ml-sm-auto show_love">
+										<span>Show some love</span></div>
+										<div class="like_button">
+											<button class="like__btn animated">
+												<i class="like__icon fa fa-heart"></i>
+												<span class="like__number">99</span>
+											</button>
+
+										</div>
+										<div class="post_share ml-sm-auto">
+											<span>share</span>
+											<ul class="post_share_list">
+												<li class="post_share_item"><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+												<li class="post_share_item"><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+												<li class="post_share_item"><a href="#"><i class="fa fa-google" aria-hidden="true"></i></a></li>
+											</ul>
+										</div>
+									</div>
+
+									<div class="similar">Similar Articles<span></span></div>
+
+									<!-- Similar Posts -->
+									<div class="similar_posts">
+										<div class="grid clearfix">
+
+											<!-- Small Card With Image -->
+											<div class="card card_small_with_image grid-item">
+												<img class="card-img-top" src="{{MEDIA_URL}}images/post_25.jpg" alt="https://unsplash.com/@jakobowens1">
+												<div class="card-body">
+													<div class="card-title card-title-small"><a href="post.html">Former Milwaukee police officer charged with homicide for shooting that set off violent unrest</a></div>
+													<small class="post_meta"><a href="#">Katy Liu</a><span>Mar 31, 2020 at 9:48 am</span></small>
+												</div>
+											</div>
+
+											<!-- Small Card With Image -->
+											<div class="card card_small_with_image grid-item">
+												<img class="card-img-top" src="{{MEDIA_URL}}images/post_2.jpg" alt="https://unsplash.com/@jakobowens1">
+												<div class="card-body">
+													<div class="card-title card-title-small"><a href="post.html">Traces of explosives found on human remains from EgyptAir flight crash</a></div>
+													<small class="post_meta"><a href="#">Katy Liu</a><span>Apr 3, 2020 at 4:51 pm</span></small>
+												</div>
+											</div>
+
+											<!-- Small Card With Image -->
+											<div class="card card_small_with_image grid-item">
+												<img class="card-img-top" src="{{MEDIA_URL}}images/post_26.jpg" alt="https://unsplash.com/@jakobowens1">
+												<div class="card-body">
+													<div class="card-title card-title-small"><a href="post.html">Cubans line up to bid farewell to Fidel Castro</a></div>
+													<small class="post_meta"><a href="#">Katy Liu</a><span>Apr 2, 2020 at 7:31 pm</span></small>
+												</div>
+											</div>
+
+										</div>
+
+										<!-- Post Comment -->
+										<div class="post_comment">
+											<div class="post_comment_title">Post Comment</div>
+											<div class="row">
+												<div class="col-xl-8">
+													<div class="post_comment_form_container">
+														<form action="#">
+															<textarea class="comment_text" placeholder="Your Comment" required="required"></textarea>
+															<button type="submit" class="comment_button">Post Comment</button>
+														</form>
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<!-- Comments -->
+										<div class="comments">
+											<div class="comments_title">Comments <span>(12)</span></div>
+											<div class="row">
+												<div class="col-xl-8">
+													<div class="comments_container">
+														<ul class="comment_list">
+															<li class="comment">
+																<div class="comment_body">
+																	<div class="comment_panel d-flex flex-row align-items-center justify-content-start">
+																		<div class="comment_author_image"><div><img src="images/comment_author_1.jpg" alt=""></div></div>
+																		<small class="post_meta"><a href="#">Katy Liu</a><span>Sep 29, 2017 at 9:48 am</span></small>
+																	</div>
+																	<div class="comment_content">
+																		<p>Pick the yellow peach that looks like a sunset with its red, orange, and pink coat skin, peel it off with your teeth. Sink them into unripened.</p>
+																	</div>
+																</div>
+
+																<!-- Reply -->
+																<ul class="comment_list">
+																	<li class="comment">
+																		<div class="comment_body">
+																			<div class="comment_panel d-flex flex-row align-items-center justify-content-start">
+																				<div class="comment_author_image"><div><img src="images/comment_author_2.jpg" alt=""></div></div>
+																				<small class="post_meta"><a href="#">Katy Liu</a><span>Sep 29, 2017 at 9:48 am</span></small>
+																			</div>
+																			<div class="comment_content">
+																				<p>Nulla facilisi. Aenean porttitor quis tortor id tempus. Interdum et malesuada fames ac ante ipsum primis in faucibus. Vivamus molestie varius tincidunt. Vestibulum congue sed libero ac sodales.</p>
+																			</div>
+																		</div>
+
+																		<!-- Reply -->
+																		<ul class="comment_list">
+
+																		</ul>
+																	</li>
+																</ul>
+															</li>
+															<li class="comment">
+																<div class="comment_body">
+																	<div class="comment_panel d-flex flex-row align-items-center justify-content-start">
+																		<div class="comment_author_image"><div><img src="images/comment_author_1.jpg" alt=""></div></div>
+																		<small class="post_meta"><a href="#">Katy Liu</a><span>Sep 29, 2017 at 9:48 am</span></small>
+																	</div>
+																	<div class="comment_content">
+																		<p>Pick the yellow peach that looks like a sunset with its red, orange, and pink coat skin, peel it off with your teeth. Sink them into unripened.</p>
+																	</div>
+																</div>
+															</li>
+														</ul>
+													</div>
+												</div>
+											</div>	
+										</div>
+									</div>
+								</div>
+								
+							</div>
+
+							<!-- Sidebar -->
+
+							<div class="col-lg-3">
+								<div class="sidebar">
+									<div class="sidebar_background"></div>
+
+									<!-- Top Stories -->
+
+									<div class="sidebar_section">
+										<div class="sidebar_title_container">
+											<div class="sidebar_title">Top Stories</div>
+											<div class="sidebar_slider_nav">
+												<div class="custom_nav_container sidebar_slider_nav_container">
+													<div class="custom_prev custom_prev_top">
+														<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+														width="7px" height="12px" viewBox="0 0 7 12" enable-background="new 0 0 7 12" xml:space="preserve">
+														<polyline fill="#bebebe" points="0,5.61 5.609,0 7,0 7,1.438 2.438,6 7,10.563 7,12 5.609,12 -0.002,6.39 "/>
+													</svg>
+												</div>
+												<ul id="custom_dots" class="custom_dots custom_dots_top">
+													<li class="custom_dot custom_dot_top active"><span></span></li>
+													<li class="custom_dot custom_dot_top"><span></span></li>
+													<li class="custom_dot custom_dot_top"><span></span></li>
+												</ul>
+												<div class="custom_next custom_next_top">
+													<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+													width="7px" height="12px" viewBox="0 0 7 12" enable-background="new 0 0 7 12" xml:space="preserve">
+													<polyline fill="#bebebe" points="6.998,6.39 1.389,12 -0.002,12 -0.002,10.562 4.561,6 -0.002,1.438 -0.002,0 1.389,0 7,5.61 "/>
+												</svg>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="sidebar_section_content">
+
+									<!-- Top Stories Slider -->
+									<div class="sidebar_slider_container">
+										<div class="owl-carousel owl-theme sidebar_slider_top">
+
+											<!-- Top Stories Slider Item -->
+											<div class="owl-item">
+
+												<!-- Sidebar Post -->
+												<div class="side_post">
+													<a href="post.html">
+														<div class="d-flex flex-row align-items-xl-center align-items-start justify-content-start">
+															<div class="side_post_image"><div><img src="{{MEDIA_URL}}images/top_1.jpg" alt=""></div></div>
+															<div class="side_post_content">
+																<div class="side_post_title">How Did van Gogh’s Turbulent Mind</div>
+																<small class="post_meta">Katy Liu<span>Sep 29</span></small>
+															</div>
+														</div>
+													</a>
+												</div>
+
+												<!-- Sidebar Post -->
+												<div class="side_post">
+													<a href="post.html">
+														<div class="d-flex flex-row align-items-xl-center align-items-start justify-content-start">
+															<div class="side_post_image"><div><img src="{{MEDIA_URL}}images/top_2.jpg" alt=""></div></div>
+															<div class="side_post_content">
+																<div class="side_post_title">How Did van Gogh’s Turbulent Mind</div>
+																<small class="post_meta">Katy Liu<span>Sep 29</span></small>
+															</div>
+														</div>
+													</a>
+												</div>
+
+												<!-- Sidebar Post -->
+												<div class="side_post">
+													<a href="post.html">
+														<div class="d-flex flex-row align-items-xl-center align-items-start justify-content-start">
+															<div class="side_post_image"><div><img src="{{MEDIA_URL}}images/top_3.jpg" alt=""></div></div>
+															<div class="side_post_content">
+																<div class="side_post_title">How Did van Gogh’s Turbulent Mind</div>
+																<small class="post_meta">Katy Liu<span>Sep 29</span></small>
+															</div>
+														</div>
+													</a>
+												</div>
+
+												<!-- Sidebar Post -->
+												<div class="side_post">
+													<a href="post.html">
+														<div class="d-flex flex-row align-items-xl-center align-items-start justify-content-start">
+															<div class="side_post_image"><div><img src="{{MEDIA_URL}}images/top_4.jpg" alt=""></div></div>
+															<div class="side_post_content">
+																<div class="side_post_title">How Did van Gogh’s Turbulent Mind</div>
+																<small class="post_meta">Katy Liu<span>Sep 29</span></small>
+															</div>
+														</div>
+													</a>
+												</div>
+
+											</div>
+
+											<!-- Top Stories Slider Item -->
+											<div class="owl-item">
+
+												<!-- Sidebar Post -->
+												<div class="side_post">
+													<a href="post.html">
+														<div class="d-flex flex-row align-items-xl-center align-items-start justify-content-start">
+															<div class="side_post_image"><div><img src="{{MEDIA_URL}}images/top_1.jpg" alt=""></div></div>
+															<div class="side_post_content">
+																<div class="side_post_title">How Did van Gogh’s Turbulent Mind</div>
+																<small class="post_meta">Katy Liu<span>Sep 29</span></small>
+															</div>
+														</div>
+													</a>
+												</div>
+
+												<!-- Sidebar Post -->
+												<div class="side_post">
+													<a href="post.html">
+														<div class="d-flex flex-row align-items-xl-center align-items-start justify-content-start">
+															<div class="side_post_image"><div><img src="{{MEDIA_URL}}images/top_2.jpg" alt=""></div></div>
+															<div class="side_post_content">
+																<div class="side_post_title">How Did van Gogh’s Turbulent Mind</div>
+																<small class="post_meta">Katy Liu<span>Sep 29</span></small>
+															</div>
+														</div>
+													</a>
+												</div>
+
+												<!-- Sidebar Post -->
+												<div class="side_post">
+													<a href="post.html">
+														<div class="d-flex flex-row align-items-xl-center align-items-start justify-content-start">
+															<div class="side_post_image"><div><img src="{{MEDIA_URL}}images/top_3.jpg" alt=""></div></div>
+															<div class="side_post_content">
+																<div class="side_post_title">How Did van Gogh’s Turbulent Mind</div>
+																<small class="post_meta">Katy Liu<span>Sep 29</span></small>
+															</div>
+														</div>
+													</a>
+												</div>
+
+												<!-- Sidebar Post -->
+												<div class="side_post">
+													<a href="post.html">
+														<div class="d-flex flex-row align-items-xl-center align-items-start justify-content-start">
+															<div class="side_post_image"><div><img src="{{MEDIA_URL}}images/top_4.jpg" alt=""></div></div>
+															<div class="side_post_content">
+																<div class="side_post_title">How Did van Gogh’s Turbulent Mind</div>
+																<small class="post_meta">Katy Liu<span>Sep 29</span></small>
+															</div>
+														</div>
+													</a>
+												</div>
+
+											</div>
+
+											<!-- Top Stories Slider Item -->
+											<div class="owl-item">
+
+												<!-- Sidebar Post -->
+												<div class="side_post">
+													<a href="post.html">
+														<div class="d-flex flex-row align-items-xl-center align-items-start justify-content-start">
+															<div class="side_post_image"><div><img src="{{MEDIA_URL}}images/top_1.jpg" alt=""></div></div>
+															<div class="side_post_content">
+																<div class="side_post_title">How Did van Gogh’s Turbulent Mind</div>
+																<small class="post_meta">Katy Liu<span>Sep 29</span></small>
+															</div>
+														</div>
+													</a>
+												</div>
+
+												<!-- Sidebar Post -->
+												<div class="side_post">
+													<a href="post.html">
+														<div class="d-flex flex-row align-items-xl-center align-items-start justify-content-start">
+															<div class="side_post_image"><div><img src="{{MEDIA_URL}}images/top_2.jpg" alt=""></div></div>
+															<div class="side_post_content">
+																<div class="side_post_title">How Did van Gogh’s Turbulent Mind</div>
+																<small class="post_meta">Katy Liu<span>Sep 29</span></small>
+															</div>
+														</div>
+													</a>
+												</div>
+
+												<!-- Sidebar Post -->
+												<div class="side_post">
+													<a href="post.html">
+														<div class="d-flex flex-row align-items-xl-center align-items-start justify-content-start">
+															<div class="side_post_image"><div><img src="{{MEDIA_URL}}images/top_3.jpg" alt=""></div></div>
+															<div class="side_post_content">
+																<div class="side_post_title">How Did van Gogh’s Turbulent Mind</div>
+																<small class="post_meta">Katy Liu<span>Sep 29</span></small>
+															</div>
+														</div>
+													</a>
+												</div>
+
+												<!-- Sidebar Post -->
+												<div class="side_post">
+													<a href="post.html">
+														<div class="d-flex flex-row align-items-xl-center align-items-start justify-content-start">
+															<div class="side_post_image"><div><img src="{{MEDIA_URL}}images/top_4.jpg" alt=""></div></div>
+															<div class="side_post_content">
+																<div class="side_post_title">How Did van Gogh’s Turbulent Mind</div>
+																<small class="post_meta">Katy Liu<span>Sep 29</span></small>
+															</div>
+														</div>
+													</a>
+												</div>
+
+											</div>
+
+										</div>
+									</div>
+								</div>
+							</div>
+
+
+
+							
+
+							
+
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+
+
+
+		</div>
+
+		<script src='{% static "jquery-3.2.1.min.js"%}'></script>
+		<script src='{% static "styles/bootstrap4/popper.js"%}'></script>
+		<script src='{% static "styles/bootstrap4/bootstrap.min.js"%}'></script>
+		<script src='{% static "plugins/OwlCarousel2-2.2.1/owl.carousel.js"%}'></script>
+		<script src='{% static "plugins/easing/easing.js"%}'></script>
+		<script src='{% static "plugins/masonry/masonry.js"%}'></script>
+		<script src='{% static "plugins/parallax-js-master/parallax.min.js"%}'></script>
+		<script src='{% static "post.js"%}'></script>
+
+
+	</body>
+	</html>

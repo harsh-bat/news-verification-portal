@@ -1,0 +1,178 @@
+{% load static %}
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Profile</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<link href="https://fonts.googleapis.com/css?family=Raleway:400,600,700,800" rel="stylesheet">
+	<link href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link href="https://fonts.googleapis.com/css?family=Droid+Sans" rel="stylesheet">
+	<link rel="stylesheet" href='{% static "main-journo.css"%}'>
+</head>
+<body>
+	<aside class="side-nav" id="show-side-navigation1">
+		<i class="fa fa-bars close-aside hidden-sm hidden-md hidden-lg" data-close="show-side-navigation1"></i>
+		<div class="heading">
+			{% if journalist.dp %}
+			<img src="{{MEDIA_URL}}{{journalist.dp}}" alt="" class="center" id="dpID" style="margin-bottom: 40px;">
+			{% else %}
+			<img src='{% static "defaultdp.png"%}' alt="A" class="center" id="dpID" style="margin-bottom: 40px;">
+			{% endif %}
+			<div class="info">
+				<br><br>
+				<h3><a href="#">{{journalist.fname}} {{journalist.lname}}</a></h3>
+			</div>
+		</div>
+
+		<ul class="categories">
+			
+
+				<li><i class="fa fa-home fa-fw" aria-hidden="true"></i><a href="/profile">Dashboard</a>
+				<li><i class="fa fa-newspaper-o  fa-fw" aria-hidden="true"></i><a href="/latest">Latest News</a>
+				</li>
+				<li><i class="fa fa-newspaper-o" aria-hidden="true"></i><a href="#">Articles</a>
+					<ul class="side-nav-dropdown">
+						<li><a href="">All Articles</a></li>
+						<li><a href="/profile">Pending Articles</a></li>
+						<li><a href="/profile">Published Articles</a></li>
+					</ul>
+				</li>
+				<li><i class="fa fa-upload" aria-hidden="true"></i><a href="/uploadnew">Upload New Article</a>
+
+				</li>
+				<li><i class="fa fa-wrench fa-fw"></i><a href="/editprofile">Edit Profile</a>
+				</li>
+
+			</ul>
+		</aside>
+		
+		<section id="contents">
+			<nav class="navbar navbar-default">
+				<div class="container-fluid">
+					<div class="navbar-header">
+						<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+							<i class="fa fa-align-right"></i>
+						</button>
+					</div>
+					<div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
+						<ul class="nav navbar-nav">
+							<li class="dropdown">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">My profile <span class="caret"></span></a>
+								<ul class="dropdown-menu">
+									<li><a href="/profile"><i class="fa fa-user-o fw"></i>Dashboard</a></li>
+									
+									<li role="separator" class="divider"></li>
+									<li><a href="/logout"><i class="fa fa-sign-out"></i> Log out</a></li>
+								</ul>
+							</li>
+							<li><a href="#"><i style="margin-top: 19px;" data-show="show-side-navigation1" class="fa fa-bars show-side-btn"></i></a></li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+			
+			<section class='statis text-center'>
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-md-6">
+							<div class="box bg-primary">
+								<i class="fa fa-eye"></i>
+								<h3>{{likes_no}}</h3>
+								<p class="lead">Total Likes</p>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="box danger">
+								<i class="fa fa-file"></i>
+								<h3>{{no_articles_published}}</h3>
+								<p class="lead">Articles Published</p>
+							</div>
+						</div>
+						
+					</div>
+				</section>
+				
+
+
+
+				<div class= "container-fluid" style="margin-left: 20px;">
+					<div class= "row">
+						<h2 class="heading">Pending Articles</h2>
+						{% for article in pending %}
+						
+						<figure class="snip1208 col-md-4" style="height: 340px;">
+							<img src="{{MEDIA_URL}}{{article.img}}" style="object-fit: contain; height: 170px;"/>
+							<div class="date"><span class="day">{{article.post_time.day}}</span><span class="month">{{article.post_time | date:"M" }}</span></div><i class="ion-film-marker"></i>
+							<figcaption style="padding-left: 0px; padding-right: 0px;">
+								<h3>{{article.headline}}</h3>
+								
+								<p>{{article.body}}</p>
+								
+								
+								
+							</figcaption>
+							
+							<a href="/article/{{article.id}}"></a><button>Read More</button>
+						</figure>
+
+
+						{% endfor %}
+						
+					</div>
+				</div>
+
+				<div class= "container-fluid" style="margin-left: 20px;">
+					<div class= "row">
+						<h2 class="heading">Published Articles</h2>
+						{% for article in completed %}
+						
+						<figure class="snip1208 col-md-4" style="height: 340px;">
+							<img src="{{MEDIA_URL}}{{article.img}}" style="object-fit: contain; height: 170px;"/>
+							<div class="date"><span class="day">{{article.post_time.day}}</span><span class="month">{{article.post_time | date:"M" }}</span></div><i class="ion-film-marker"></i>
+							<figcaption style="padding-left: 0px; padding-right: 0px;">
+								<h3>{{article.headline}}</h3>
+								
+								<p>{{article.body}}</p>
+								
+								
+								
+							</figcaption>
+							
+							<a href="/article/{{article.id}}"></a><button>Read More</button>
+						</figure>
+
+
+
+						{% endfor %}
+					</div>
+				</div>
+
+				<style>
+					figure.snip1208 figcaption  {
+						white-space: nowrap !important;
+						overflow: hidden !important;
+						text-overflow: ellipsis !important;
+					}
+
+					.heading{
+					color: white !important;
+				}
+				
+				</style>
+
+
+			</section>
+			
+
+			
+			<script src='http://code.jquery.com/jquery-latest.js'></script>
+			<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+			<script src='{% static "main-journo.js"%}'></script>
+
+		</body>
+		</html>
+
+

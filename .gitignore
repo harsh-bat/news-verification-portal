@@ -1,0 +1,9 @@
+.ipynb_checkpoints/
+news_dataset.csv
+MLServer/GoogleNews-vectors-negative300.bin
+MLServer/GoogleNews-vectors-negative300.bin.gz
+ML/.ipynb_checkpoints/
+ML/news_dataset.csv
+ML/Body\ Vector.csv
+ML/Headline\ Vector.csv
+ML/GoogleNews-vectors-negative300.bin
