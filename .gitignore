@@ -7,3 +7,4 @@ ML/news_dataset.csv
 ML/Body\ Vector.csv
 ML/Headline\ Vector.csv
 ML/GoogleNews-vectors-negative300.bin
+TFServer/model25epo.h5
