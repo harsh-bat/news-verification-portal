@@ -14,3 +14,4 @@ MLServerEnv/
 FakeNews/FakeNewsApp/__pycache__/
 FakeNews/FakeNewsApp/migrations/
 FakeNews/FakeNews/__pycache__/
+BC/node_modules/
