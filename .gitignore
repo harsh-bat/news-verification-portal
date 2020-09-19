@@ -8,3 +8,9 @@ ML/Body\ Vector.csv
 ML/Headline\ Vector.csv
 ML/GoogleNews-vectors-negative300.bin
 TFServer/model25epo.h5
+TFServerEnv/
+FakeNewsEnv/
+MLServerEnv/
+FakeNews/FakeNewsApp/__pycache__/
+FakeNews/FakeNewsApp/migrations/
+FakeNews/FakeNews/__pycache__/
